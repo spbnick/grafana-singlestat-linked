@@ -1,13 +1,13 @@
 {
   "type": "panel",
-  "name": "Singlestat",
-  "id": "singlestat",
+  "name": "Singlestat Linked",
+  "id": "singlestatlinked",
 
   "info": {
-    "description": "Singlestat Panel for Grafana",
+    "description": "Singlestat Panel for Grafana, with support for links",
     "author": {
-      "name": "Grafana Project",
-      "url": "https://grafana.com"
+      "name": "Nikolai Kondrashov",
+      "url": "https://github.com/spbnick/"
     },
     "logos": {
       "small": "img/icn-singlestat-panel.svg",
