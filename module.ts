@@ -46,7 +46,7 @@ export interface ShowData {
   colorMap: any;
 }
 
-class SingleStatCtrl extends MetricsPanelCtrl {
+class SingleStatLinkedCtrl extends MetricsPanelCtrl {
   static templateUrl = 'module.html';
 
   data: Partial<ShowData> = {};
@@ -134,8 +134,8 @@ class SingleStatCtrl extends MetricsPanelCtrl {
 
   onInitEditMode() {
     this.fontSizes = ['20%', '30%', '50%', '70%', '80%', '100%', '110%', '120%', '150%', '170%', '200%'];
-    this.addEditorTab('Options', 'public/app/plugins/panel/singlestat/editor.html', 2);
-    this.addEditorTab('Value Mappings', 'public/app/plugins/panel/singlestat/mappings.html', 3);
+    this.addEditorTab('Options', 'public/app/plugins/panel/singlestatlinked/editor.html', 2);
+    this.addEditorTab('Value Mappings', 'public/app/plugins/panel/singlestatlinked/mappings.html', 3);
   }
 
   migrateToGaugePanel(migrate: boolean) {
@@ -349,7 +349,7 @@ class SingleStatCtrl extends MetricsPanelCtrl {
     const templateSrv = this.templateSrv;
     let linkInfo: LinkModel<any> | null = null;
     const $panelContainer = elem.find('.panel-container');
-    elem = elem.find('.singlestat-panel');
+    elem = elem.find('.singlestatlinked-panel');
 
     function applyColoringThresholds(valueString: string) {
       const data = ctrl.data;
@@ -370,21 +370,21 @@ class SingleStatCtrl extends MetricsPanelCtrl {
 
     function getBigValueHtml() {
       const data: ShowData = ctrl.data;
-      let body = '<div class="singlestat-panel-value-container">';
+      let body = '<div class="singlestatlinked-panel-value-container">';
 
       if (panel.prefix) {
-        body += getSpan('singlestat-panel-prefix', panel.prefixFontSize, panel.colorPrefix, panel.prefix);
+        body += getSpan('singlestatlinked-panel-prefix', panel.prefixFontSize, panel.colorPrefix, panel.prefix);
       }
 
       body += getSpan(
-        'singlestat-panel-value',
+        'singlestatlinked-panel-value',
         panel.valueFontSize,
         panel.colorValue,
         formattedValueToString(data.display)
       );
 
       if (panel.postfix) {
-        body += getSpan('singlestat-panel-postfix', panel.postfixFontSize, panel.colorPostfix, panel.postfix);
+        body += getSpan('singlestatlinked-panel-postfix', panel.postfixFontSize, panel.colorPostfix, panel.postfix);
       }
 
       body += '</div>';
@@ -748,4 +748,4 @@ function getDistinctNames(data: DataFrame[]): DistinctFieldsInfo {
   return distinct;
 }
 
-export { SingleStatCtrl, SingleStatCtrl as PanelCtrl, getColorForValue };
+export { SingleStatLinkedCtrl, SingleStatLinkedCtrl as PanelCtrl, getColorForValue };

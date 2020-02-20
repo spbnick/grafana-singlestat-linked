@@ -1,6 +1,6 @@
 {
   "type": "panel",
-  "name": "Singlestat Linked",
+  "name": "Singlestatlinked",
   "id": "singlestatlinked",
 
   "info": {
@@ -10,8 +10,8 @@
       "url": "https://github.com/spbnick/"
     },
     "logos": {
-      "small": "img/icn-singlestat-panel.svg",
-      "large": "img/icn-singlestat-panel.svg"
+      "small": "img/icn-singlestatlinked-panel.svg",
+      "large": "img/icn-singlestatlinked-panel.svg"
     }
   }
 }

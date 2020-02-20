@@ -1,17 +1,17 @@
-import { SingleStatCtrl, ShowData } from '../module';
+import { SingleStatLinkedCtrl, ShowData } from '../module';
 import { dateTime, ReducerID } from '@grafana/data';
 import { LinkSrv } from 'app/features/panel/panellinks/link_srv';
 import { LegacyResponseData } from '@grafana/data';
 import { DashboardModel } from 'app/features/dashboard/state';
 
 interface TestContext {
-  ctrl: SingleStatCtrl;
+  ctrl: SingleStatLinkedCtrl;
   input: LegacyResponseData[];
   data: Partial<ShowData>;
   setup: (setupFunc: any) => void;
 }
 
-describe('SingleStatCtrl', () => {
+describe('SingleStatLinkedCtrl', () => {
   const ctx: TestContext = {} as TestContext;
   const epoch = 1505826363746;
   Date.now = () => epoch;
@@ -26,25 +26,25 @@ describe('SingleStatCtrl', () => {
 
   const $sanitize = {};
 
-  SingleStatCtrl.prototype.panel = {
+  SingleStatLinkedCtrl.prototype.panel = {
     events: {
       on: () => {},
       emit: () => {},
     },
   };
-  SingleStatCtrl.prototype.dashboard = ({
+  SingleStatLinkedCtrl.prototype.dashboard = ({
     getTimezone: jest.fn(() => 'utc'),
   } as any) as DashboardModel;
-  SingleStatCtrl.prototype.events = {
+  SingleStatLinkedCtrl.prototype.events = {
     on: () => {},
   };
 
-  function singleStatScenario(desc: string, func: any) {
+  function singleStatLinkedScenario(desc: string, func: any) {
     describe(desc, () => {
       ctx.setup = (setupFunc: any) => {
         beforeEach(() => {
           // @ts-ignore
-          ctx.ctrl = new SingleStatCtrl($scope, $injector, {} as LinkSrv, $sanitize);
+          ctx.ctrl = new SingleStatLinkedCtrl($scope, $injector, {} as LinkSrv, $sanitize);
           setupFunc();
           ctx.ctrl.onSnapshotLoad(ctx.input);
           ctx.data = ctx.ctrl.data;
@@ -55,7 +55,7 @@ describe('SingleStatCtrl', () => {
     });
   }
 
-  singleStatScenario('with defaults', (ctx: TestContext) => {
+  singleStatLinkedScenario('with defaults', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -77,7 +77,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('showing serie name instead of value', (ctx: TestContext) => {
+  singleStatLinkedScenario('showing serie name instead of value', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -100,7 +100,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('showing last iso time instead of value', (ctx: TestContext) => {
+  singleStatLinkedScenario('showing last iso time instead of value', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -125,7 +125,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('showing last iso time instead of value (in UTC)', (ctx: TestContext) => {
+  singleStatLinkedScenario('showing last iso time instead of value (in UTC)', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -146,7 +146,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('showing last us time instead of value', (ctx: TestContext) => {
+  singleStatLinkedScenario('showing last us time instead of value', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -171,7 +171,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('showing last us time instead of value (in UTC)', (ctx: TestContext) => {
+  singleStatLinkedScenario('showing last us time instead of value (in UTC)', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -192,7 +192,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('showing last time from now instead of value', (ctx: TestContext) => {
+  singleStatLinkedScenario('showing last time from now instead of value', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -216,7 +216,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('showing last time from now instead of value (in UTC)', (ctx: TestContext) => {
+  singleStatLinkedScenario('showing last time from now instead of value (in UTC)', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [
         {
@@ -236,7 +236,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario(
+  singleStatLinkedScenario(
     'MainValue should use same number for decimals as displayed when checking thresholds',
     (ctx: TestContext) => {
       ctx.setup(() => {
@@ -263,7 +263,7 @@ describe('SingleStatCtrl', () => {
     }
   );
 
-  singleStatScenario('When value to text mapping is specified', (ctx: TestContext) => {
+  singleStatLinkedScenario('When value to text mapping is specified', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [{ target: 'test.cpu1', datapoints: [[9.9, 1]] }];
       ctx.ctrl.panel.valueMaps = [{ value: '9.9', text: 'OK' }];
@@ -278,7 +278,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('When mapping null values and no data', (ctx: TestContext) => {
+  singleStatLinkedScenario('When mapping null values and no data', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = []; // No data
       ctx.ctrl.panel.valueMaps = [{ value: 'null', text: 'XYZ' }];
@@ -293,7 +293,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('When range to text mapping is specified for first range', (ctx: TestContext) => {
+  singleStatLinkedScenario('When range to text mapping is specified for first range', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [{ target: 'test.cpu1', datapoints: [[41, 50]] }];
       ctx.ctrl.panel.mappingType = 2;
@@ -308,7 +308,7 @@ describe('SingleStatCtrl', () => {
     });
   });
 
-  singleStatScenario('When range to text mapping is specified for other ranges', (ctx: TestContext) => {
+  singleStatLinkedScenario('When range to text mapping is specified for other ranges', (ctx: TestContext) => {
     ctx.setup(() => {
       ctx.input = [{ target: 'test.cpu1', datapoints: [[65, 75]] }];
       ctx.ctrl.panel.mappingType = 2;
@@ -332,7 +332,7 @@ describe('SingleStatCtrl', () => {
       },
     ];
 
-    singleStatScenario('with default values', (ctx: TestContext) => {
+    singleStatLinkedScenario('with default values', (ctx: TestContext) => {
       ctx.setup(() => {
         ctx.input = tableData;
         ctx.ctrl.panel = {
@@ -351,7 +351,7 @@ describe('SingleStatCtrl', () => {
       });
     });
 
-    singleStatScenario('When table data has multiple columns', (ctx: TestContext) => {
+    singleStatLinkedScenario('When table data has multiple columns', (ctx: TestContext) => {
       ctx.setup(() => {
         ctx.input = tableData;
         ctx.ctrl.panel.tableColumn = '';
@@ -362,7 +362,7 @@ describe('SingleStatCtrl', () => {
       });
     });
 
-    singleStatScenario(
+    singleStatLinkedScenario(
       'MainValue should use same number for decimals as displayed when checking thresholds',
       (ctx: TestContext) => {
         ctx.setup(() => {
@@ -382,7 +382,7 @@ describe('SingleStatCtrl', () => {
       }
     );
 
-    singleStatScenario('When value to text mapping is specified', (ctx: TestContext) => {
+    singleStatLinkedScenario('When value to text mapping is specified', (ctx: TestContext) => {
       ctx.setup(() => {
         ctx.input = tableData;
         ctx.input[0].rows[0] = [1492759673649, 'ignore1', 10, 'ignore2'];
@@ -400,7 +400,7 @@ describe('SingleStatCtrl', () => {
       });
     });
 
-    singleStatScenario('When range to text mapping is specified for first range', (ctx: TestContext) => {
+    singleStatLinkedScenario('When range to text mapping is specified for first range', (ctx: TestContext) => {
       ctx.setup(() => {
         ctx.input = tableData;
         ctx.input[0].rows[0] = [1492759673649, 'ignore1', 41, 'ignore2'];
@@ -417,7 +417,7 @@ describe('SingleStatCtrl', () => {
       });
     });
 
-    singleStatScenario('When range to text mapping is specified for other ranges', (ctx: TestContext) => {
+    singleStatLinkedScenario('When range to text mapping is specified for other ranges', (ctx: TestContext) => {
       ctx.setup(() => {
         ctx.input = tableData;
         ctx.input[0].rows[0] = [1492759673649, 'ignore1', 65, 'ignore2'];
@@ -434,7 +434,7 @@ describe('SingleStatCtrl', () => {
       });
     });
 
-    singleStatScenario('When value is string', (ctx: TestContext) => {
+    singleStatLinkedScenario('When value is string', (ctx: TestContext) => {
       ctx.setup(() => {
         ctx.input = tableData;
         ctx.input[0].rows[0] = [1492759673649, 'ignore1', 65, 'ignore2'];
@@ -447,7 +447,7 @@ describe('SingleStatCtrl', () => {
       });
     });
 
-    singleStatScenario('When value is zero', (ctx: TestContext) => {
+    singleStatLinkedScenario('When value is zero', (ctx: TestContext) => {
       ctx.setup(() => {
         ctx.input = tableData;
         ctx.input[0].rows[0] = [1492759673649, 'ignore1', 0, 'ignore2'];
